@@ -2,11 +2,14 @@ import * as Vue from "vue";
 import Component from "vue-class-component";
 import { indexTemplateHtml } from "./variables";
 
+const keyName = "todo.items";
+const initialItems = localStorage.getItem(keyName);
+
 @Component({
     template: indexTemplateHtml,
 })
 class App extends Vue {
-    items: Item[] = [];
+    items: Item[] = initialItems ? JSON.parse(initialItems) : [];
     newItemContent = "";
     hoveringIndex: number | null = null;
     editingIndex: number | null = null;
@@ -17,6 +20,7 @@ class App extends Vue {
     set editingItemContent(content: string) {
         if (this.editingIndex !== null) {
             this.items[this.editingIndex].content = content;
+            this.save();
         }
     }
 
@@ -26,6 +30,7 @@ class App extends Vue {
             content: this.newItemContent,
             remark: "",
         });
+        this.save();
         this.newItemContent = "";
     }
     mouseenter(index: number) {
@@ -42,6 +47,7 @@ class App extends Vue {
     cancel(item: Item) {
         item.status = "canceled";
         item.date = Date.now();
+        this.save();
     }
     canOnIt(index: number) {
         return this.hoveringIndex === index
@@ -50,6 +56,7 @@ class App extends Vue {
     }
     onIt(item: Item) {
         item.status = "doing";
+        this.save();
     }
     canFinish(index: number) {
         return this.hoveringIndex === index
@@ -59,6 +66,7 @@ class App extends Vue {
     finish(item: Item) {
         item.status = "finished";
         item.date = Date.now();
+        this.save();
     }
     edit(index: number) {
         this.editingIndex = index;
@@ -71,6 +79,9 @@ class App extends Vue {
     }
     doneEditing() {
         this.editingIndex = null;
+    }
+    save() {
+        localStorage.setItem(keyName, JSON.stringify(this.items));
     }
 }
 
