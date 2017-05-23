@@ -65,3 +65,4 @@ dist
 *.css
 index.html
 !*.config.js
+version.json

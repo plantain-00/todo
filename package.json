@@ -13,8 +13,9 @@
     "cleancss": "cleancss -o index.min.css index.css",
     "clean": "rimraf index-*.*",
     "file2variable": "file2variable-cli index.template.html -o variables.ts --html-minify",
-    "build": "npm run clean && npm run file2variable && npm run tsc && npm run lessc && npm run cleancss && npm run webpack && npm run rev-static",
-    "lint": "npm run tslint && npm run stylelint"
+    "build": "npm run clean && npm run file2variable && npm run tsc && npm run lessc && npm run cleancss && npm run webpack && npm run rev-static && npm run service-worker",
+    "lint": "npm run tslint && npm run stylelint",
+    "service-worker": "webpack --config webpack.config.worker.js"
   },
   "repository": {
     "type": "git",

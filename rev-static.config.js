@@ -7,7 +7,7 @@ module.exports = {
     excludeFiles: [
     ],
     outputFiles: file => file.replace(".ejs", ""),
-    json: false,
+    json: "version.json",
     ejsOptions: {
         rmWhitespace: true
     },

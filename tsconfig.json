@@ -2,6 +2,11 @@
     "compilerOptions": {
         "target": "es5",
 
+        "lib": [
+            "dom",
+            "es2015"
+        ],
+
         "module": "commonjs",
         "strict": true,
         "noUnusedLocals": true,
