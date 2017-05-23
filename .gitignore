@@ -66,4 +66,3 @@ dist
 index.html
 !*.config.js
 version.json
-!sw-precache-config.js
