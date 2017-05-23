@@ -1,7 +1,7 @@
 module.exports = {
     inputFiles: [
         "index.js",
-        "index.css",
+        "index.min.css",
         "index.ejs.html",
     ],
     excludeFiles: [
