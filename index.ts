@@ -68,6 +68,15 @@ class App extends Vue {
         item.date = Date.now();
         this.save();
     }
+    canReopen(index: number) {
+        return this.hoveringIndex === index
+            && this.editingIndex === null
+            && (this.items[index].status === "finished" || this.items[index].status === "canceled");
+    }
+    reopen(item: Item) {
+        item.status = "created";
+        this.save();
+    }
     edit(index: number) {
         this.editingIndex = index;
         Vue.nextTick(() => {
