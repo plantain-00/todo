@@ -1,6 +1,11 @@
 import * as Vue from "vue";
 import Component from "vue-class-component";
+import * as Clipboard from "clipboard";
 import { indexTemplateHtml } from "./variables";
+
+/*tslint:disable no-unused-expression */
+new Clipboard(".clipboard");
+/*tslint:enable no-unused-expression */
 
 const keyName = "todo.items";
 const initialItems = localStorage.getItem(keyName);
@@ -13,6 +18,7 @@ class App extends Vue {
     newItemContent = "";
     hoveringIndex: number | null = null;
     editingIndex: number | null = null;
+    reportResult = "";
 
     get editingItemContent() {
         return this.editingIndex !== null ? this.items[this.editingIndex].content : "";
@@ -28,7 +34,6 @@ class App extends Vue {
         this.items.push({
             status: "created",
             content: this.newItemContent,
-            remark: "",
         });
         this.save();
         this.newItemContent = "";
@@ -92,16 +97,40 @@ class App extends Vue {
     save() {
         localStorage.setItem(keyName, JSON.stringify(this.items));
     }
+    reportStatus(items: Item[], status: Status) {
+        return status + ":\n" + items.filter(item => item.status === status)
+            .map(item => {
+                const date = new Date(item.date!);
+                const month = date.getMonth() + 1;
+                return `${date.getFullYear()}-${month > 9 ? month : "0" + month}-${date.getDate()}(${date.getDay()}): ${item.content}`;
+            })
+            .join("\n");
+    }
+    report(milliseconds: number) {
+        const items = this.items.filter(item => Date.now() - item.date! < milliseconds)
+            .sort((item1, item2) => item1.date! - item2.date!);
+        this.reportResult = this.reportStatus(items, "finished") + "\n\n" + this.reportStatus(items, "canceled");
+    }
+    reportLastDay() {
+        this.report(24 * 60 * 60 * 1000);
+    }
+    reportLastWeek() {
+        this.report(7 * 24 * 60 * 60 * 1000);
+    }
+    clearReport() {
+        this.reportResult = "";
+    }
 }
 
 /*tslint:disable:no-unused-expression*/
 new App({ el: "#container" });
 /*tslint:enable:no-unused-expression*/
 
+type Status = "created" | "doing" | "finished" | "canceled";
+
 interface Item {
-    status: "created" | "doing" | "finished" | "canceled";
+    status: Status;
     content: string;
-    remark: string;
     date?: number;
 }
 

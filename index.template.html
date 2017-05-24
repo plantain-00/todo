@@ -1,5 +1,12 @@
-<div>
-    <ul class="items">
+<div class="items">
+    <div class="operations">
+        <button @click="reportLastDay()">report last day</button>
+        <button @click="reportLastWeek()">report last week</button>
+        <button v-if="reportResult" class="clipboard" data-clipboard-target="#report-result">copy report</button>
+        <button v-if="reportResult" @click="clearReport()">clear report</button>
+    </div>
+    <pre id="report-result" v-if="reportResult">{{reportResult}}</pre>
+    <ul>
         <li>
             <input v-model="newItemContent" @keyup.enter="create()">
         </li>
