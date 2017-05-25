@@ -18,7 +18,8 @@ class App extends Vue {
     newItemContent = "";
     hoveringIndex: number | null = null;
     editingIndex: number | null = null;
-    reportResult = "";
+    result = "";
+    canImport = false;
 
     get editingItemContent() {
         return this.editingIndex !== null ? this.items[this.editingIndex].content : "";
@@ -32,7 +33,7 @@ class App extends Vue {
 
     create() {
         this.items.push({
-            status: "created",
+            status: "open",
             content: this.newItemContent,
         });
         this.save();
@@ -44,42 +45,42 @@ class App extends Vue {
     mouseleave() {
         this.hoveringIndex = null;
     }
-    canCancel(index: number) {
+    canClose(index: number) {
         return this.hoveringIndex === index
             && this.editingIndex === null
-            && (this.items[index].status === "created" || this.items[index].status === "doing");
+            && (this.items[index].status === "open" || this.items[index].status === "doing");
     }
-    cancel(item: Item) {
-        item.status = "canceled";
+    close(item: Item) {
+        item.status = "closed";
         item.date = Date.now();
         this.save();
     }
     canOnIt(index: number) {
         return this.hoveringIndex === index
             && this.editingIndex === null
-            && this.items[index].status === "created";
+            && this.items[index].status === "open";
     }
     onIt(item: Item) {
         item.status = "doing";
         this.save();
     }
-    canFinish(index: number) {
+    canDone(index: number) {
         return this.hoveringIndex === index
             && this.editingIndex === null
-            && (this.items[index].status === "created" || this.items[index].status === "doing");
+            && (this.items[index].status === "open" || this.items[index].status === "doing");
     }
-    finish(item: Item) {
-        item.status = "finished";
+    done(item: Item) {
+        item.status = "done";
         item.date = Date.now();
         this.save();
     }
     canReopen(index: number) {
         return this.hoveringIndex === index
             && this.editingIndex === null
-            && (this.items[index].status === "finished" || this.items[index].status === "canceled");
+            && (this.items[index].status === "done" || this.items[index].status === "closed");
     }
     reopen(item: Item) {
-        item.status = "created";
+        item.status = "open";
         this.save();
     }
     edit(index: number) {
@@ -109,7 +110,7 @@ class App extends Vue {
     report(milliseconds: number) {
         const items = this.items.filter(item => Date.now() - item.date! < milliseconds)
             .sort((item1, item2) => item1.date! - item2.date!);
-        this.reportResult = this.reportStatus(items, "finished") + "\n\n" + this.reportStatus(items, "canceled");
+        this.result = this.reportStatus(items, "done") + "\n\n" + this.reportStatus(items, "closed");
     }
     reportLastDay() {
         this.report(24 * 60 * 60 * 1000);
@@ -117,8 +118,25 @@ class App extends Vue {
     reportLastWeek() {
         this.report(7 * 24 * 60 * 60 * 1000);
     }
-    clearReport() {
-        this.reportResult = "";
+    clearResult() {
+        this.result = "";
+    }
+    clearItems() {
+        this.items = this.items.filter(item => !item.date || Date.now() - item.date < 7 * 24 * 60 * 60 * 1000);
+        this.save();
+    }
+    exportItems() {
+        this.result = JSON.stringify(this.items);
+    }
+    importItems() {
+        this.items = JSON.parse(this.result);
+        this.save();
+    }
+    clickResult() {
+        this.canImport = true;
+    }
+    doneEditingResult() {
+        this.canImport = false;
     }
 }
 
@@ -126,7 +144,7 @@ class App extends Vue {
 new App({ el: "#container" });
 /*tslint:enable:no-unused-expression*/
 
-type Status = "created" | "doing" | "finished" | "canceled";
+type Status = "open" | "doing" | "done" | "closed";
 
 interface Item {
     status: Status;
