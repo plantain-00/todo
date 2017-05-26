@@ -10,7 +10,8 @@
     </div>
     <textarea v-if="canImport"
         v-model="result"
-        @focusout="doneEditingResult()">
+        @focusout="doneEditingResult()"
+        ref="result">
     </textarea>
     <pre v-else id="report-result" @click="clickResult()">{{result}}</pre>
     <ul>

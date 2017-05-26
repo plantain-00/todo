@@ -134,6 +134,12 @@ class App extends Vue {
     }
     clickResult() {
         this.canImport = true;
+        Vue.nextTick(() => {
+            const resultElement = this.$refs.result as HTMLElement;
+            if (resultElement) {
+                resultElement.focus();
+            }
+        });
     }
     doneEditingResult() {
         this.canImport = false;
