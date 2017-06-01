@@ -3,9 +3,8 @@ import Component from "vue-class-component";
 import * as Clipboard from "clipboard";
 import { indexTemplateHtml } from "./variables";
 
-/*tslint:disable no-unused-expression */
+// tslint:disable-next-line:no-unused-expression
 new Clipboard(".clipboard");
-/*tslint:enable no-unused-expression */
 
 const keyName = "todo.items";
 const initialItems = localStorage.getItem(keyName);
@@ -146,9 +145,8 @@ class App extends Vue {
     }
 }
 
-/*tslint:disable:no-unused-expression*/
+// tslint:disable-next-line:no-unused-expression
 new App({ el: "#container" });
-/*tslint:enable:no-unused-expression*/
 
 type Status = "open" | "doing" | "done" | "closed";
 
@@ -160,6 +158,7 @@ interface Item {
 
 if (navigator.serviceWorker) {
     navigator.serviceWorker.register("service-worker.bundle.js").catch(error => {
+        // tslint:disable-next-line:no-console
         console.log("registration failed with error: " + error);
     });
 }
