@@ -31,7 +31,7 @@ class App extends Vue {
     }
 
     create() {
-        this.items.push({
+        this.items.unshift({
             status: "open",
             content: this.newItemContent,
         });
