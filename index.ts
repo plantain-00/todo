@@ -31,12 +31,14 @@ class App extends Vue {
     }
 
     create() {
-        this.items.unshift({
-            status: "open",
-            content: this.newItemContent,
-        });
-        this.save();
-        this.newItemContent = "";
+        if (this.newItemContent && this.newItemContent.trim()) {
+            this.items.unshift({
+                status: "open",
+                content: this.newItemContent.trim(),
+            });
+            this.save();
+            this.newItemContent = "";
+        }
     }
     mouseenter(index: number) {
         this.hoveringIndex = index;
