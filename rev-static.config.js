@@ -1,6 +1,6 @@
 module.exports = {
     inputFiles: [
-        "index.js",
+        "index.min.js",
         "index.min.css",
         "index.ejs.html",
     ],

@@ -7,7 +7,7 @@ module.exports = {
     },
     output: {
         path: __dirname,
-        filename: "[name].js"
+        filename: "[name].min.js"
     },
     plugins: [
         new webpack.DefinePlugin({

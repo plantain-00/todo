@@ -7,7 +7,7 @@
             "es2015"
         ],
 
-        "module": "commonjs",
+        "module": "esnext",
         "strict": true,
         "noUnusedLocals": true,
         "noImplicitReturns": true,
@@ -15,6 +15,7 @@
         "importHelpers": true,
         "jsx": "react",
         "experimentalDecorators": true,
-        "allowSyntheticDefaultImports": true
+        "allowSyntheticDefaultImports": true,
+        "moduleResolution": "node"
     }
 }

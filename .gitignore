@@ -64,4 +64,5 @@ index.js
 index.css
 service-worker.js
 index.min.css
+index.min.js
 variables.js
