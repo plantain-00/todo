@@ -7,10 +7,13 @@
         <button v-if="items.length > 0 && result && !canImport" @click="importItems()">import items</button>
         <button v-if="result && !canImport" class="clipboard" data-clipboard-target="#report-result">copy</button>
         <button v-if="result && !canImport" @click="clearResult()">clear</button>
+        <button v-if="items.length > 0" @click="toggleReportFormatVisibility()">report format</button>
     </div>
+    <input v-if="reportFormatIsEditing" id="reportFormat" v-model="reportFormat">
     <textarea v-if="canImport"
         v-model="result"
         @focusout="doneEditingResult()"
+        rows="20"
         ref="result">
     </textarea>
     <pre v-else id="report-result" @click="clickResult()">{{result}}</pre>

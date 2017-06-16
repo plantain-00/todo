@@ -1,13 +1,15 @@
-import * as Vue from "vue";
+import Vue from "vue";
 import Component from "vue-class-component";
 import * as Clipboard from "clipboard";
+import JSON5 from "json5";
 import { indexTemplateHtml } from "./variables";
 
 // tslint:disable-next-line:no-unused-expression
 new Clipboard(".clipboard");
 
-const keyName = "todo.items";
-const initialItems = localStorage.getItem(keyName);
+const itemsKeyName = "todo.items";
+const reportFormatKeyName = "todo.report.format";
+const initialItems = localStorage.getItem(itemsKeyName);
 
 @Component({
     template: indexTemplateHtml,
@@ -19,6 +21,16 @@ class App extends Vue {
     editingIndex: number | null = null;
     result = "";
     canImport = false;
+    internalReportFormat = localStorage.getItem(reportFormatKeyName) || "[year]-[month]-[day]([week]): [content]";
+    reportFormatIsEditing = false;
+
+    get reportFormat() {
+        return this.internalReportFormat;
+    }
+    set reportFormat(format: string) {
+        this.internalReportFormat = format;
+        localStorage.setItem(reportFormatKeyName, format);
+    }
 
     get editingItemContent() {
         return this.editingIndex !== null ? this.items[this.editingIndex].content : "";
@@ -30,6 +42,17 @@ class App extends Vue {
         }
     }
 
+    toggleReportFormatVisibility() {
+        this.reportFormatIsEditing = !this.reportFormatIsEditing;
+        if (this.reportFormatIsEditing) {
+            Vue.nextTick(() => {
+                const reportFormatElement = document.getElementById("reportFormat");
+                if (reportFormatElement) {
+                    reportFormatElement.focus();
+                }
+            });
+        }
+    }
     create() {
         if (this.newItemContent && this.newItemContent.trim()) {
             this.items.unshift({
@@ -97,14 +120,22 @@ class App extends Vue {
         this.editingIndex = null;
     }
     save() {
-        localStorage.setItem(keyName, JSON.stringify(this.items));
+        localStorage.setItem(itemsKeyName, JSON.stringify(this.items));
     }
     reportStatus(items: Item[], status: Status) {
         return status + ":\n" + items.filter(item => item.status === status)
             .map(item => {
                 const date = new Date(item.date!);
+                const year = date.getFullYear().toString();
                 const month = date.getMonth() + 1;
-                return `${date.getFullYear()}-${month > 9 ? month : "0" + month}-${date.getDate()}(${date.getDay()}): ${item.content}`;
+                const monthString = month > 9 ? month.toString() : "0" + month;
+                const day = date.getDate().toString();
+                const week = date.toLocaleDateString(navigator.language, { weekday: "short" });
+                return this.reportFormat.replace("[year]", year)
+                    .replace("[month]", monthString)
+                    .replace("[day]", day)
+                    .replace("[week]", week)
+                    .replace("[content]", item.content);
             })
             .join("\n");
     }
@@ -127,10 +158,10 @@ class App extends Vue {
         this.save();
     }
     exportItems() {
-        this.result = JSON.stringify(this.items);
+        this.result = JSON5.stringify(this.items, null, "  ");
     }
     importItems() {
-        this.items = JSON.parse(this.result);
+        this.items = JSON5.parse(this.result);
         this.save();
     }
     clickResult() {
