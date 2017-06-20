@@ -23,6 +23,8 @@ class App extends Vue {
     canImport = false;
     internalReportFormat = localStorage.getItem(reportFormatKeyName) || "[year]-[month]-[day]([week]): [content]";
     reportFormatIsEditing = false;
+    reportDays = 1;
+    reportDaysIsEditing = false;
 
     get reportFormat() {
         return this.internalReportFormat;
@@ -49,6 +51,17 @@ class App extends Vue {
                 const reportFormatElement = document.getElementById("reportFormat");
                 if (reportFormatElement) {
                     reportFormatElement.focus();
+                }
+            });
+        }
+    }
+    toggleReportDaysVisibility() {
+        this.reportDaysIsEditing = !this.reportDaysIsEditing;
+        if (this.reportDaysIsEditing) {
+            Vue.nextTick(() => {
+                const reportDaysElement = document.getElementById("reportDays");
+                if (reportDaysElement) {
+                    reportDaysElement.focus();
                 }
             });
         }
@@ -139,16 +152,11 @@ class App extends Vue {
             })
             .join("\n");
     }
-    report(milliseconds: number) {
+    report() {
+        const milliseconds = this.reportDays * 24 * 60 * 60 * 1000;
         const items = this.items.filter(item => Date.now() - item.date! < milliseconds)
             .sort((item1, item2) => item1.date! - item2.date!);
         this.result = this.reportStatus(items, "done") + "\n\n" + this.reportStatus(items, "closed");
-    }
-    reportLastDay() {
-        this.report(24 * 60 * 60 * 1000);
-    }
-    reportLastWeek() {
-        this.report(7 * 24 * 60 * 60 * 1000);
     }
     clearResult() {
         this.result = "";

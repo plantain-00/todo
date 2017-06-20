@@ -1,15 +1,16 @@
 <div class="items">
     <div class="operations">
-        <button v-if="items.length > 0" @click="reportLastDay()">report last day</button>
-        <button v-if="items.length > 0" @click="reportLastWeek()">report last week</button>
+        <button v-if="items.length > 0" @click="report()">report</button>
         <button v-if="items.length > 0" @click="clearItems()">clear items</button>
         <button v-if="items.length > 0" @click="exportItems()">export items</button>
         <button v-if="items.length > 0 && result && !canImport" @click="importItems()">import items</button>
         <button v-if="result && !canImport" class="clipboard" data-clipboard-target="#report-result">copy</button>
         <button v-if="result && !canImport" @click="clearResult()">clear</button>
+        <button v-if="items.length > 0" @click="toggleReportDaysVisibility()">report days</button>
         <button v-if="items.length > 0" @click="toggleReportFormatVisibility()">report format</button>
     </div>
-    <input v-if="reportFormatIsEditing" id="reportFormat" v-model="reportFormat">
+    <input v-if="reportDaysIsEditing" id="reportDays" v-model="reportDays" type="number">
+    <input v-if="reportFormatIsEditing" id="reportFormat" v-model="reportFormat" type="text">
     <textarea v-if="canImport"
         v-model="result"
         @focusout="doneEditingResult()"
