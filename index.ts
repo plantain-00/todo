@@ -23,7 +23,7 @@ class App extends Vue {
     canImport = false;
     internalReportFormat = localStorage.getItem(reportFormatKeyName) || "[year]-[month]-[day]([week]): [content]";
     reportFormatIsEditing = false;
-    reportDays = 1;
+    reportDays = 0.5;
     reportDaysIsEditing = false;
 
     get reportFormat() {
