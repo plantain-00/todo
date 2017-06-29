@@ -3,6 +3,7 @@ import Component from "vue-class-component";
 import * as Clipboard from "clipboard";
 import JSON5 from "json5";
 import { indexTemplateHtml } from "./variables";
+import "relative-time-component/dist/vue";
 
 // tslint:disable-next-line:no-unused-expression
 new Clipboard(".clipboard");

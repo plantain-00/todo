@@ -34,7 +34,14 @@
                 <del v-if="item.status === 'closed' || item.status === 'done'">{{item.content}}</del>
                 <template v-else>{{item.content}}</template>
             </span>
-            <span v-if="editingIndex !== i" @click="edit(i)" :class="item.status">{{item.status}}</span>
+            <span v-if="editingIndex !== i" @click="edit(i)" :class="item.status">
+                {{item.status}}
+                <template v-if="item.date">
+                    (
+                    <relative-time :time="item.date"></relative-time>
+                    )
+                </template>
+            </span>
             <button v-if="canOnIt(i)" @click="onIt(item)">on it</button>
             <button v-if="canDone(i)" @click="done(item)">done</button>
             <button v-if="canClose(i)" @click="close(item)">close</button>
