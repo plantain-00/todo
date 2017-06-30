@@ -14,8 +14,10 @@
     "clean": "rimraf index.min-*.js index.min-*.css",
     "file2variable": "file2variable-cli index.template.html -o variables.ts --html-minify",
     "build": "npm run clean && npm run file2variable && npm run tsc && npm run lessc && npm run cleancss && npm run webpack && npm run rev-static && npm run sw-precache",
-    "lint": "npm run tslint && npm run stylelint",
-    "sw-precache": "sw-precache --config sw-precache.config.js --verbose && uglifyjs service-worker.js -o service-worker.bundle.js"
+    "lint": "npm run tslint && npm run stylelint && npm run standard",
+    "sw-precache": "sw-precache --config sw-precache.config.js --verbose && uglifyjs service-worker.js -o service-worker.bundle.js",
+    "standard": "standard \"**/*.config.js\"",
+    "fix": "standard --fix \"**/*.config.js\""
   },
   "repository": {
     "type": "git",
@@ -39,6 +41,7 @@
     "relative-time-component": "1.1.0",
     "rev-static": "2.4.2",
     "rimraf": "2.6.1",
+    "standard": "10.0.2",
     "stylelint": "7.10.1",
     "stylelint-config-standard": "16.0.0",
     "sw-precache": "5.1.1",
