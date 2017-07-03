@@ -143,11 +143,12 @@ class App extends Vue {
                 const year = date.getFullYear().toString();
                 const month = date.getMonth() + 1;
                 const monthString = month > 9 ? month.toString() : "0" + month;
-                const day = date.getDate().toString();
+                const day = date.getDate();
+                const dayString = day > 9 ? day.toString() : "0" + day;
                 const week = date.toLocaleDateString(navigator.language, { weekday: "short" });
                 return this.reportFormat.replace("[year]", year)
                     .replace("[month]", monthString)
-                    .replace("[day]", day)
+                    .replace("[day]", dayString)
                     .replace("[week]", week)
                     .replace("[content]", item.content);
             })
