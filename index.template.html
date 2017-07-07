@@ -1,13 +1,13 @@
 <div class="items">
     <div class="operations">
         <button v-if="items.length > 0" @click="report()">report</button>
-        <button v-if="items.length > 0" @click="clearItems()">clear items</button>
+        <button v-if="canClearItems" @click="clearItems()">clear items</button>
         <button v-if="items.length > 0" @click="exportItems()">export items</button>
         <button v-if="items.length > 0 && result && !canImport" @click="importItems()">import items</button>
         <button v-if="result && !canImport" class="clipboard" data-clipboard-target="#report-result">copy</button>
         <button v-if="result && !canImport" @click="clearResult()">clear</button>
-        <button v-if="items.length > 0" @click="toggleReportDaysVisibility()">report days</button>
-        <button v-if="items.length > 0" @click="toggleReportFormatVisibility()">report format</button>
+        <button v-if="items.length > 0" :class="reportDaysIsEditing ? 'expanded' : ''" @click="toggleReportDaysVisibility()">report days</button>
+        <button v-if="items.length > 0" :class="reportFormatIsEditing ? 'expanded' : ''" @click="toggleReportFormatVisibility()">report format</button>
     </div>
     <input v-if="reportDaysIsEditing" id="reportDays" v-model="reportDays" type="number">
     <input v-if="reportFormatIsEditing" id="reportFormat" v-model="reportFormat" type="text">

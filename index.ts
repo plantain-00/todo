@@ -29,6 +29,7 @@ class App extends Vue {
     reportDays = 0.5;
     reportDaysIsEditing = false;
     locale = locale;
+    clearItemTimespan = 7 * 24 * 60 * 60 * 1000;
 
     get reportFormat() {
         return this.internalReportFormat;
@@ -166,8 +167,11 @@ class App extends Vue {
     clearResult() {
         this.result = "";
     }
+    get canClearItems() {
+        return this.items.length > 0 && this.items.some(item => !!item.date && Date.now() - item.date >= this.clearItemTimespan);
+    }
     clearItems() {
-        this.items = this.items.filter(item => !item.date || Date.now() - item.date < 7 * 24 * 60 * 60 * 1000);
+        this.items = this.items.filter(item => !item.date || Date.now() - item.date < this.clearItemTimespan);
         this.save();
     }
     exportItems() {

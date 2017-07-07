@@ -11,7 +11,7 @@
     "lessc": "lessc index.less > index.css",
     "stylelint": "stylelint \"**/*.less\"",
     "cleancss": "cleancss -o index.min.css index.css  ./node_modules/github-fork-ribbon-css/gh-fork-ribbon.css",
-    "clean": "rimraf index.min-*.js index.min-*.css",
+    "clean": "rimraf *.min-*.js index.min-*.css",
     "file2variable": "file2variable-cli index.template.html -o variables.ts --html-minify",
     "build": "npm run clean && npm run file2variable && npm run tsc && npm run lessc && npm run cleancss && npm run webpack && npm run rev-static && npm run sw-precache",
     "lint": "npm run tslint && npm run stylelint && npm run standard",
