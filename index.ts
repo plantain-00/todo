@@ -4,6 +4,7 @@ import * as Clipboard from "clipboard";
 import JSON5 from "json5";
 import { indexTemplateHtml } from "./variables";
 import "relative-time-component/dist/vue";
+import { Locale } from "relative-time-component/dist/vue";
 
 // tslint:disable-next-line:no-unused-expression
 new Clipboard(".clipboard");
@@ -11,6 +12,7 @@ new Clipboard(".clipboard");
 const itemsKeyName = "todo.items";
 const reportFormatKeyName = "todo.report.format";
 const initialItems = localStorage.getItem(itemsKeyName);
+let locale: Locale | null = null;
 
 @Component({
     template: indexTemplateHtml,
@@ -26,6 +28,7 @@ class App extends Vue {
     reportFormatIsEditing = false;
     reportDays = 0.5;
     reportDaysIsEditing = false;
+    locale = locale;
 
     get reportFormat() {
         return this.internalReportFormat;
@@ -188,8 +191,10 @@ class App extends Vue {
     }
 }
 
-// tslint:disable-next-line:no-unused-expression
-new App({ el: "#container" });
+function start() {
+    // tslint:disable-next-line:no-unused-expression
+    new App({ el: "#container" });
+}
 
 type Status = "open" | "doing" | "done" | "closed";
 
@@ -204,4 +209,15 @@ if (navigator.serviceWorker) {
         // tslint:disable-next-line:no-console
         console.log("registration failed with error: " + error);
     });
+}
+
+if (navigator.language === "zh-CN") {
+    import ("relative-time-component/dist/locales/" + navigator.language + ".js").then(module => {
+        locale = module.locale;
+        start();
+    }, error => {
+        start();
+    });
+} else {
+    start();
 }

@@ -38,7 +38,7 @@
                 {{item.status}}
                 <template v-if="item.date">
                     (
-                    <relative-time :time="item.date"></relative-time>
+                    <relative-time :time="item.date" :locale="locale"></relative-time>
                     )
                 </template>
             </span>
