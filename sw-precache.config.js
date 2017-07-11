@@ -1,8 +1,6 @@
 module.exports = {
   staticFileGlobs: [
     'index.html',
-    'index.min-*.css',
-    'index.min-*.js',
-    '*.min-*.js'
+    'vendor.min-*.js'
   ]
 }

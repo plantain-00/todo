@@ -2,11 +2,12 @@ const webpack = require('webpack')
 
 module.exports = {
   entry: {
-    index: './index'
+    index: './index',
+    vendor: './vendor'
   },
   output: {
     path: __dirname,
-    filename: '[name].min-[hash].js'
+    filename: '[name].min.js'
   },
   plugins: [
     new webpack.DefinePlugin({
@@ -22,6 +23,9 @@ module.exports = {
       output: {
         comments: false
       }
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: ['index', 'vendor']
     })
   ],
   resolve: {

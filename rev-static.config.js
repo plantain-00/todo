@@ -1,13 +1,16 @@
 module.exports = {
   inputFiles: [
-    '*.min-*.js',
+    '*.min.js',
     'index.min.css',
     'index.ejs.html'
   ],
   excludeFiles: [
   ],
   revisedFiles: [
-    '*.min-*.js'
+  ],
+  inlinedFiles: [
+    'index.min.js',
+    'index.min.css'
   ],
   outputFiles: file => file.replace('.ejs', ''),
   ejsOptions: {
