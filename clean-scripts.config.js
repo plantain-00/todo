@@ -31,5 +31,5 @@ module.exports = {
     js: `standard --fix "**/*.config.js"`,
     less: `stylelint --fix "**/*.less"`
   },
-  watch: `watch-then-execute "index.template.html" "*.ts" "index.less" "index.template.html" --exclude "variables.ts" --script "npm run build"`
+  watch: `watch-then-execute "*.ts" "index.less" "index.template.html" --exclude "variables.ts" --script "npm run build"`
 }
