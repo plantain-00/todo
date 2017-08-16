@@ -5,7 +5,6 @@ import JSON5 from "json5";
 import { indexTemplateHtml } from "./variables";
 import { Locale } from "relative-time-component/vue";
 
-// tslint:disable-next-line:no-unused-expression
 new Clipboard(".clipboard");
 
 const itemsKeyName = "todo.items";
@@ -19,16 +18,16 @@ let locale: Locale | null = null;
 class App extends Vue {
     items: Item[] = initialItems ? JSON.parse(initialItems) : [];
     newItemContent = "";
-    hoveringIndex: number | null = null;
     editingIndex: number | null = null;
     result = "";
     canImport = false;
-    internalReportFormat = localStorage.getItem(reportFormatKeyName) || "[year]-[month]-[day]([week]): [content]";
     reportFormatIsEditing = false;
     reportDays = 0.5;
     reportDaysIsEditing = false;
     locale = locale;
-    clearItemTimespan = 7 * 24 * 60 * 60 * 1000;
+    private clearItemTimespan = 7 * 24 * 60 * 60 * 1000;
+    private hoveringIndex: number | null = null;
+    private internalReportFormat = localStorage.getItem(reportFormatKeyName) || "[year]-[month]-[day]([week]): [content]";
 
     get reportFormat() {
         return this.internalReportFormat;
@@ -136,27 +135,6 @@ class App extends Vue {
     doneEditing() {
         this.editingIndex = null;
     }
-    save() {
-        localStorage.setItem(itemsKeyName, JSON.stringify(this.items));
-    }
-    reportStatus(items: Item[], status: Status) {
-        return status + ":\n" + items.filter(item => item.status === status)
-            .map(item => {
-                const date = new Date(item.date!);
-                const year = date.getFullYear().toString();
-                const month = date.getMonth() + 1;
-                const monthString = month > 9 ? month.toString() : "0" + month;
-                const day = date.getDate();
-                const dayString = day > 9 ? day.toString() : "0" + day;
-                const week = date.toLocaleDateString(navigator.language, { weekday: "short" });
-                return this.reportFormat.replace("[year]", year)
-                    .replace("[month]", monthString)
-                    .replace("[day]", dayString)
-                    .replace("[week]", week)
-                    .replace("[content]", item.content);
-            })
-            .join("\n");
-    }
     report() {
         const milliseconds = this.reportDays * 24 * 60 * 60 * 1000;
         const items = this.items.filter(item => Date.now() - item.date! < milliseconds)
@@ -192,10 +170,30 @@ class App extends Vue {
     doneEditingResult() {
         this.canImport = false;
     }
+    private save() {
+        localStorage.setItem(itemsKeyName, JSON.stringify(this.items));
+    }
+    private reportStatus(items: Item[], status: Status) {
+        return status + ":\n" + items.filter(item => item.status === status)
+            .map(item => {
+                const date = new Date(item.date!);
+                const year = date.getFullYear().toString();
+                const month = date.getMonth() + 1;
+                const monthString = month > 9 ? month.toString() : "0" + month;
+                const day = date.getDate();
+                const dayString = day > 9 ? day.toString() : "0" + day;
+                const week = date.toLocaleDateString(navigator.language, { weekday: "short" });
+                return this.reportFormat.replace("[year]", year)
+                    .replace("[month]", monthString)
+                    .replace("[day]", dayString)
+                    .replace("[week]", week)
+                    .replace("[content]", item.content);
+            })
+            .join("\n");
+    }
 }
 
 function start() {
-    // tslint:disable-next-line:no-unused-expression
     new App({ el: "#container" });
 }
 
