@@ -3,7 +3,6 @@ const childProcess = require('child_process')
 module.exports = {
   build: [
     {
-      clean: `rimraf *.min-*.js index.min-*.css`,
       js: [
         `file2variable-cli index.template.html -o variables.ts --html-minify`,
         `tsc`,
@@ -12,11 +11,14 @@ module.exports = {
       css: [
         `lessc index.less > index.css`,
         `cleancss -o index.min.css index.css  ./node_modules/github-fork-ribbon-css/gh-fork-ribbon.css`
-      ]
+      ],
+      clean: `rimraf *.min-*.js index.min-*.css`
     },
     `rev-static --config rev-static.config.js`,
-    `sw-precache --config sw-precache.config.js --verbose`,
-    `uglifyjs service-worker.js -o service-worker.bundle.js`
+    [
+      `sw-precache --config sw-precache.config.js --verbose`,
+      `uglifyjs service-worker.js -o service-worker.bundle.js`
+    ]
   ],
   lint: {
     ts: `tslint "*.ts"`,
@@ -46,5 +48,12 @@ module.exports = {
     js: `standard --fix "**/*.config.js"`,
     less: `stylelint --fix "**/*.less"`
   },
-  watch: `watch-then-execute "*.ts" "index.less" "index.template.html" --exclude "variables.ts" --script "npm run build"`
+  watch: {
+    template: `file2variable-cli index.template.html -o variables.ts --html-minify --watch`,
+    src: `tsc --watch`,
+    webpack: `webpack --watch`,
+    less: `watch-then-execute "index.less" --script "clean-scripts build[0].css"`,
+    rev: `rev-static --watch`,
+    sw: `watch-then-execute "vendor.bundle-*.js" "index.html" "worker.bundle.js" --script "clean-scripts build[2]"`
+  }
 }
