@@ -8,7 +8,8 @@
     "lint": "clean-scripts lint",
     "test": "clean-scripts test",
     "fix": "clean-scripts fix",
-    "watch": "clean-scripts watch"
+    "watch": "clean-scripts watch",
+    "prerender": "clean-scripts prerender"
   },
   "repository": {
     "type": "git",
@@ -29,6 +30,7 @@
     "clipboard": "1.7.1",
     "file2variable-cli": "1.5.2",
     "github-fork-ribbon-css": "0.2.1",
+    "http-server": "0.10.0",
     "jasmine": "2.7.0",
     "json5": "0.5.1",
     "karma": "1.7.0",
@@ -38,8 +40,9 @@
     "karma-webpack": "2.0.4",
     "less": "2.7.2",
     "no-unused-export": "1.1.0",
+    "prerender-js": "1.1.0",
     "relative-time-component": "2.0.0",
-    "rev-static": "3.3.1",
+    "rev-static": "3.4.0",
     "rimraf": "2.6.1",
     "standard": "10.0.2",
     "stylelint": "8.0.0",
