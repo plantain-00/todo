@@ -133,6 +133,10 @@ class App extends Vue {
         });
     }
     doneEditing() {
+        if (this.editingIndex !== null && !this.items[this.editingIndex].content) {
+            this.items.splice(this.editingIndex, 1);
+            this.save();
+        }
         this.editingIndex = null;
     }
     report() {
