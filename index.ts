@@ -47,6 +47,10 @@ class App extends Vue {
         }
     }
 
+    getSpanedContent(item: Item) {
+        return item.content.split("").map(c => `<span>${c}</span>`).join("");
+    }
+
     toggleReportFormatVisibility() {
         this.reportFormatIsEditing = !this.reportFormatIsEditing;
         if (this.reportFormatIsEditing) {
@@ -123,12 +127,31 @@ class App extends Vue {
         item.status = "open";
         this.save();
     }
-    edit(index: number) {
+    edit(index: number, e: MouseEvent) {
+        const target = e.target as HTMLSpanElement;
+        let position = 0;
+        const clientX = e.clientX;
+        if (!target.className) { // click on letters rather than spaces
+            const parentElement = target.parentElement as HTMLSpanElement;
+            if (parentElement.childElementCount > 0) {
+                let x = (parentElement.childNodes[0] as HTMLSpanElement).getBoundingClientRect().left;
+                // tslint:disable-next-line:prefer-for-of
+                for (let i = 0; i < parentElement.childNodes.length; i++) {
+                    const width = (parentElement.childNodes[i] as HTMLSpanElement).getBoundingClientRect().width;
+                    x += width;
+                    position++;
+                    if (x >= clientX - width / 2) {
+                        break;
+                    }
+                }
+            }
+        }
         this.editingIndex = index;
         Vue.nextTick(() => {
-            const editingItemElement = document.getElementById("editingItem");
+            const editingItemElement = document.getElementById("editingItem") as HTMLInputElement;
             if (editingItemElement) {
                 editingItemElement.focus();
+                editingItemElement.setSelectionRange(position, position);
             }
         });
     }

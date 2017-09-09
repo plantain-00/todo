@@ -298,7 +298,7 @@
                 n.d(e, "a", function() {
                     return i
                 });
-                var i = '<div class="items"><div class="operations"><button v-if="items.length > 0" @click="report()">report</button><button v-if="canClearItems" @click="clearItems()">clear items</button><button v-if="items.length > 0" @click="exportItems()">export items</button><button v-if="items.length > 0 && result && !canImport" @click="importItems()">import items</button><button v-if="result && !canImport" class="clipboard" data-clipboard-target="#report-result">copy</button><button v-if="result && !canImport" @click="clearResult()">clear</button><button v-if="items.length > 0" :class="reportDaysIsEditing ? \'expanded\' : \'\'" @click="toggleReportDaysVisibility()">report days</button><button v-if="items.length > 0" :class="reportFormatIsEditing ? \'expanded\' : \'\'" @click="toggleReportFormatVisibility()">report format</button></div><input v-if="reportDaysIsEditing" id="reportDays" v-model="reportDays" type="number"> <input v-if="reportFormatIsEditing" id="reportFormat" v-model="reportFormat" type="text"><textarea v-if="canImport" v-model="result" @focusout="doneEditingResult()" rows="20" ref="result">\n    </textarea><pre v-else id="report-result" @click="clickResult()">{{result}}</pre><ul><li><input v-model="newItemContent" @keyup.enter="create()"></li><li v-for="(item, i) in items" @mouseenter="mouseenter(i)" @mouseleave="mouseleave()"><input v-if="editingIndex === i" v-model="editingItemContent" @keyup.enter="doneEditing()" id="editingItem" @focusout="doneEditing()"><span v-else @click="edit(i)" class="content"><del v-if="item.status === \'closed\' || item.status === \'done\'">{{item.content}}</del><template v-else>{{item.content}}</template></span><span v-if="editingIndex !== i" @click="edit(i)" :class="item.status">{{item.status}}<template v-if="item.date">(<relative-time :time="item.date" :locale="locale"></relative-time>)</template></span><button v-if="canOnIt(i)" @click="onIt(item)">on it</button><button v-if="canDone(i)" @click="done(item)">done</button><button v-if="canClose(i)" @click="close(item)">close</button><button v-if="canReopen(i)" @click="reopen(item)">reopen</button></li></ul></div>'
+                var i = '<div class="items"><div class="operations"><button v-if="items.length > 0" @click="report()">report</button><button v-if="canClearItems" @click="clearItems()">clear items</button><button v-if="items.length > 0" @click="exportItems()">export items</button><button v-if="items.length > 0 && result && !canImport" @click="importItems()">import items</button><button v-if="result && !canImport" class="clipboard" data-clipboard-target="#report-result">copy</button><button v-if="result && !canImport" @click="clearResult()">clear</button><button v-if="items.length > 0" :class="reportDaysIsEditing ? \'expanded\' : \'\'" @click="toggleReportDaysVisibility()">report days</button><button v-if="items.length > 0" :class="reportFormatIsEditing ? \'expanded\' : \'\'" @click="toggleReportFormatVisibility()">report format</button></div><input v-if="reportDaysIsEditing" id="reportDays" v-model="reportDays" type="number"> <input v-if="reportFormatIsEditing" id="reportFormat" v-model="reportFormat" type="text"><textarea v-if="canImport" v-model="result" @focusout="doneEditingResult()" rows="20" ref="result">\n    </textarea><pre v-else id="report-result" @click="clickResult()">{{result}}</pre><ul><li><input v-model="newItemContent" @keyup.enter="create()"></li><li v-for="(item, i) in items" @mouseenter="mouseenter(i)" @mouseleave="mouseleave()"><input v-if="editingIndex === i" v-model="editingItemContent" @keyup.enter="doneEditing()" id="editingItem" @focusout="doneEditing()"><template v-else><del v-if="item.status === \'closed\' || item.status === \'done\'" @click="edit(i, $event)" class="content" v-html="getSpanedContent(item)"></del><span v-else @click="edit(i, $event)" class="content" v-html="getSpanedContent(item)"></span></template><span v-if="editingIndex !== i" @click="edit(i)" :class="item.status">{{item.status}}<template v-if="item.date">(<relative-time :time="item.date" :locale="locale"></relative-time>)</template></span><button v-if="canOnIt(i)" @click="onIt(item)">on it</button><button v-if="canDone(i)" @click="done(item)">done</button><button v-if="canClose(i)" @click="close(item)">close</button><button v-if="canReopen(i)" @click="reopen(item)">reopen</button></li></ul></div>'
             },
             7: function(t, e, n) {
                 "use strict";
@@ -311,8 +311,8 @@
                     s = n(1),
                     a = n.n(s),
                     l = n(3),
-                    u = (n.n(l), n(4)),
-                    c = n.n(u),
+                    c = (n.n(l), n(4)),
+                    u = n.n(c),
                     p = n(16),
                     d = n(5);
                 new l(".clipboard");
@@ -342,7 +342,11 @@
                             },
                             enumerable: !0,
                             configurable: !0
-                        }), e.prototype.toggleReportFormatVisibility = function() {
+                        }), e.prototype.getSpanedContent = function(t) {
+                            return t.content.split("").map(function(t) {
+                                return "<span>" + t + "</span>"
+                            }).join("")
+                        }, e.prototype.toggleReportFormatVisibility = function() {
                             this.reportFormatIsEditing = !this.reportFormatIsEditing, this.reportFormatIsEditing && r.a.nextTick(function() {
                                 var t = document.getElementById("reportFormat");
                                 t && t.focus()
@@ -377,10 +381,21 @@
                             return this.hoveringIndex === t && null === this.editingIndex && ("done" === this.items[t].status || "closed" === this.items[t].status)
                         }, e.prototype.reopen = function(t) {
                             t.status = "open", this.save()
-                        }, e.prototype.edit = function(t) {
+                        }, e.prototype.edit = function(t, e) {
+                            var n = e.target,
+                                i = 0,
+                                o = e.clientX;
+                            if (!n.className) {
+                                var s = n.parentElement;
+                                if (s.childElementCount > 0)
+                                    for (var a = s.childNodes[0].getBoundingClientRect().left, l = 0; l < s.childNodes.length; l++) {
+                                        var c = s.childNodes[l].getBoundingClientRect().width;
+                                        if (a += c, i++, a >= o - c / 2) break
+                                    }
+                            }
                             this.editingIndex = t, r.a.nextTick(function() {
                                 var t = document.getElementById("editingItem");
-                                t && t.focus()
+                                t && (t.focus(), t.setSelectionRange(i, i))
                             })
                         }, e.prototype.doneEditing = function() {
                             null === this.editingIndex || this.items[this.editingIndex].content || (this.items.splice(this.editingIndex, 1), this.save()), this.editingIndex = null
@@ -409,9 +424,9 @@
                                 return !e.date || Date.now() - e.date < t.clearItemTimespan
                             }), this.save()
                         }, e.prototype.exportItems = function() {
-                            this.result = c.a.stringify(this.items, null, "  ")
+                            this.result = u.a.stringify(this.items, null, "  ")
                         }, e.prototype.importItems = function() {
-                            this.items = c.a.parse(this.result), this.save()
+                            this.items = u.a.parse(this.result), this.save()
                         }, e.prototype.clickResult = function() {
                             var t = this;
                             this.canImport = !0, r.a.nextTick(function() {

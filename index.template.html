@@ -30,10 +30,18 @@
                 @keyup.enter="doneEditing()"
                 id="editingItem"
                 @focusout="doneEditing()">
-            <span v-else @click="edit(i)" class="content">
-                <del v-if="item.status === 'closed' || item.status === 'done'">{{item.content}}</del>
-                <template v-else>{{item.content}}</template>
-            </span>
+            <template v-else>
+                <del v-if="item.status === 'closed' || item.status === 'done'"
+                    @click="edit(i, $event)"
+                    class="content"
+                    v-html="getSpanedContent(item)">
+                </del>
+                <span v-else
+                    @click="edit(i, $event)"
+                    class="content"
+                    v-html="getSpanedContent(item)">
+                </span>
+            </template>
             <span v-if="editingIndex !== i" @click="edit(i)" :class="item.status">
                 {{item.status}}
                 <template v-if="item.date">
