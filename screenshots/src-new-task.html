@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        .items {
+            margin-left: 100px;
+            margin-right: 100px
+        }
+
+        .items * {
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: "Lucida Grande", "Lucida Sans Unicode", "Hiragino Sans GB", "WenQuanYi Micro Hei", "Verdana,Aril", sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none
+        }
+
+        .items ul {
+            list-style: none;
+            -webkit-padding-start: 0
+        }
+
+        .items ul li {
+            list-style: none;
+            height: 34px;
+            line-height: 34px;
+            color: #fff
+        }
+
+        .items ul li #editingItem {
+            width: 100%
+        }
+
+        .items ul li input {
+            height: 34px;
+            padding: 6px 12px;
+            font-size: 16px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+            transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+            transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+            transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+            width: 100%
+        }
+
+        .items ul li input:focus {
+            border-color: #66afe9;
+            outline: 0;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6)
+        }
+
+        .items ul li .closed,
+        .items ul li .doing,
+        .items ul li .done,
+        .items ul li .open {
+            padding: 6px 12px;
+            font-size: 14px;
+            border-radius: 4px;
+            cursor: default
+        }
+
+        .items ul li .content {
+            color: #555;
+            padding-left: 13px
+        }
+
+        .items ul li .open {
+            background-color: #d9534f
+        }
+
+        .items ul li .doing {
+            background-color: #337ab7
+        }
+
+        .items ul li .done {
+            background-color: #5cb85c
+        }
+
+        .items ul li .closed {
+            background-color: #777
+        }
+
+        .items button {
+            color: #333;
+            background-color: #fff;
+            display: inline-block;
+            padding: 3px 6px;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.42857143;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            -ms-touch-action: manipulation;
+            touch-action: manipulation;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            background-image: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-left: 3px
+        }
+
+        .items button:hover {
+            background-color: #e6e6e6;
+            border-color: #adadad;
+            text-decoration: none
+        }
+
+        .items .expanded {
+            background-color: #e6e6e6;
+            border-color: #adadad;
+            text-decoration: none
+        }
+
+        .items .operations {
+            margin-bottom: 10px
+        }
+
+        .items pre {
+            display: block;
+            padding: 9.5px;
+            margin: 0 0 10px;
+            font-size: 13px;
+            line-height: 1.42857143;
+            color: #333;
+            word-break: break-all;
+            word-wrap: break-word;
+            background-color: #f5f5f5;
+            border: 1px solid #ccc;
+            border-radius: 4px
+        }
+
+        .items input,
+        .items textarea {
+            display: block;
+            width: 100%;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            background-image: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+            transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+            transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+            transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s
+        }
+
+        /*!
+ * "Fork me on GitHub" CSS ribbon v0.2.0 | MIT License
+ * https://github.com/simonwhitaker/github-fork-ribbon-css
+*/
+
+        .github-fork-ribbon {
+            width: 12.1em;
+            height: 12.1em;
+            position: absolute;
+            overflow: hidden;
+            top: 0;
+            right: 0;
+            z-index: 9999;
+            pointer-events: none;
+            font-size: 13px;
+            text-decoration: none;
+            text-indent: -999999px
+        }
+
+        .github-fork-ribbon.fixed {
+            position: fixed
+        }
+
+        .github-fork-ribbon:after,
+        .github-fork-ribbon:before {
+            position: absolute;
+            display: block;
+            width: 15.38em;
+            height: 1.54em;
+            top: 3.23em;
+            right: -3.23em;
+            -webkit-transform: rotate(45deg);
+            -moz-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            -o-transform: rotate(45deg);
+            transform: rotate(45deg)
+        }
+
+        .github-fork-ribbon:before {
+            content: "";
+            padding: .38em 0;
+            background-color: #a00;
+            background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0)), to(rgba(0, 0, 0, .15)));
+            background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, .15));
+            background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, .15));
+            background-image: -ms-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, .15));
+            background-image: -o-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, .15));
+            background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, .15));
+            -webkit-box-shadow: 0 .15em .23em 0 rgba(0, 0, 0, .5);
+            -moz-box-shadow: 0 .15em .23em 0 rgba(0, 0, 0, .5);
+            box-shadow: 0 .15em .23em 0 rgba(0, 0, 0, .5);
+            pointer-events: auto
+        }
+
+        .github-fork-ribbon:after {
+            content: attr(title);
+            color: #fff;
+            font: 700 1em "Helvetica Neue", Helvetica, Arial, sans-serif;
+            line-height: 1.54em;
+            text-decoration: none;
+            text-shadow: 0 -.08em rgba(0, 0, 0, .5);
+            text-align: center;
+            text-indent: 0;
+            padding: .15em 0;
+            margin: .15em 0;
+            border-width: .08em 0;
+            border-style: dotted;
+            border-color: #fff;
+            border-color: rgba(255, 255, 255, .7)
+        }
+
+        .github-fork-ribbon.left-bottom,
+        .github-fork-ribbon.left-top {
+            right: auto;
+            left: 0
+        }
+
+        .github-fork-ribbon.left-bottom,
+        .github-fork-ribbon.right-bottom {
+            top: auto;
+            bottom: 0
+        }
+
+        .github-fork-ribbon.left-bottom:after,
+        .github-fork-ribbon.left-bottom:before,
+        .github-fork-ribbon.left-top:after,
+        .github-fork-ribbon.left-top:before {
+            right: auto;
+            left: -3.23em
+        }
+
+        .github-fork-ribbon.left-bottom:after,
+        .github-fork-ribbon.left-bottom:before,
+        .github-fork-ribbon.right-bottom:after,
+        .github-fork-ribbon.right-bottom:before {
+            top: auto;
+            bottom: 3.23em
+        }
+
+        .github-fork-ribbon.left-top:after,
+        .github-fork-ribbon.left-top:before,
+        .github-fork-ribbon.right-bottom:after,
+        .github-fork-ribbon.right-bottom:before {
+            -webkit-transform: rotate(-45deg);
+            -moz-transform: rotate(-45deg);
+            -ms-transform: rotate(-45deg);
+            -o-transform: rotate(-45deg);
+            transform: rotate(-45deg)
+        }
+    </style>
+</head>
+
+<body><a class="github-fork-ribbon right-bottom" href="https://github.com/plantain-00/todo" title="Fork me on GitHub" target="_blank" rel="noopener">Fork me on GitHub</a>
+    <div id="prerender-container">
+        <div class="items">
+            <div class="operations"><button>report</button>
+                <!----><button>export items</button>
+                <!---->
+                <!---->
+                <!----><button class="">report days</button><button class="">report format</button></div>
+            <!---->
+            <!---->
+            <pre id="report-result"></pre>
+            <ul>
+                <li><input></li>
+                <li><span class="content"><span>T</span><span>a</span><span>s</span><span>k</span><span> </span><span>1</span></span><span class="open">open<!----></span><button>on it</button><button>done</button><button>close</button>
+                    <!---->
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script src="vendor.min-4a26fe3984569ac51d94f15065434868.js" crossorigin="anonymous" integrity="sha256-Iep6skm4aXXOuoFqqtY0raL+iXDum086Ha0UuKe4lLw="></script>
+    <script>
+        webpackJsonp([0], {
+            16: function(t, e, n) {
+                "use strict";
+                n.d(e, "a", function() {
+                    return i
+                });
+                var i = '<div class="items"><div class="operations"><button v-if="items.length > 0" @click="report()">report</button><button v-if="canClearItems" @click="clearItems()">clear items</button><button v-if="items.length > 0" @click="exportItems()">export items</button><button v-if="items.length > 0 && result && !canImport" @click="importItems()">import items</button><button v-if="result && !canImport" class="clipboard" data-clipboard-target="#report-result">copy</button><button v-if="result && !canImport" @click="clearResult()">clear</button><button v-if="items.length > 0" :class="reportDaysIsEditing ? \'expanded\' : \'\'" @click="toggleReportDaysVisibility()">report days</button><button v-if="items.length > 0" :class="reportFormatIsEditing ? \'expanded\' : \'\'" @click="toggleReportFormatVisibility()">report format</button></div><input v-if="reportDaysIsEditing" id="reportDays" v-model="reportDays" type="number"> <input v-if="reportFormatIsEditing" id="reportFormat" v-model="reportFormat" type="text"><textarea v-if="canImport" v-model="result" @focusout="doneEditingResult()" rows="20" ref="result">\n    </textarea><pre v-else id="report-result" @click="clickResult()">{{result}}</pre><ul><li><input v-model="newItemContent" @keyup.enter="create()"></li><li v-for="(item, i) in items" @mouseenter="mouseenter(i)" @mouseleave="mouseleave()"><input v-if="editingIndex === i" v-model="editingItemContent" @keyup.enter="doneEditing()" id="editingItem" @focusout="doneEditing()"><template v-else><del v-if="item.status === \'closed\' || item.status === \'done\'" @click="edit(i, $event)" class="content" v-html="getSpanedContent(item)"></del><span v-else @click="edit(i, $event)" class="content" v-html="getSpanedContent(item)"></span></template><span v-if="editingIndex !== i" @click="edit(i)" :class="item.status">{{item.status}}<template v-if="item.date">(<relative-time :time="item.date" :locale="locale"></relative-time>)</template></span><button v-if="canOnIt(i)" @click="onIt(item)">on it</button><button v-if="canDone(i)" @click="done(item)">done</button><button v-if="canClose(i)" @click="close(item)">close</button><button v-if="canReopen(i)" @click="reopen(item)">reopen</button></li></ul></div>'
+            },
+            7: function(t, e, n) {
+                "use strict";
+                Object.defineProperty(e, "__esModule", {
+                    value: !0
+                });
+                var i = n(2),
+                    o = n(0),
+                    r = n.n(o),
+                    s = n(1),
+                    a = n.n(s),
+                    l = n(3),
+                    c = (n.n(l), n(4)),
+                    u = n.n(c),
+                    p = n(16),
+                    d = n(5);
+                new l(".clipboard");
+                var m = "todo.report.format",
+                    g = localStorage.getItem("todo.items"),
+                    h = null,
+                    f = function(t) {
+                        function e() {
+                            var e = null !== t && t.apply(this, arguments) || this;
+                            return e.items = g ? JSON.parse(g) : [], e.newItemContent = "", e.editingIndex = null, e.result = "", e.canImport = !1, e.reportFormatIsEditing = !1, e.reportDays = .5, e.reportDaysIsEditing = !1, e.locale = h, e.clearItemTimespan = 6048e5, e.hoveringIndex = null, e.internalReportFormat = localStorage.getItem(m) || "[year]-[month]-[day]([week]): [content]", e
+                        }
+                        return i.b(e, t), Object.defineProperty(e.prototype, "reportFormat", {
+                            get: function() {
+                                return this.internalReportFormat
+                            },
+                            set: function(t) {
+                                this.internalReportFormat = t, localStorage.setItem(m, t)
+                            },
+                            enumerable: !0,
+                            configurable: !0
+                        }), Object.defineProperty(e.prototype, "editingItemContent", {
+                            get: function() {
+                                return null !== this.editingIndex ? this.items[this.editingIndex].content : ""
+                            },
+                            set: function(t) {
+                                null !== this.editingIndex && (this.items[this.editingIndex].content = t, this.save())
+                            },
+                            enumerable: !0,
+                            configurable: !0
+                        }), e.prototype.getSpanedContent = function(t) {
+                            return t.content.split("").map(function(t) {
+                                return "<span>" + t + "</span>"
+                            }).join("")
+                        }, e.prototype.toggleReportFormatVisibility = function() {
+                            this.reportFormatIsEditing = !this.reportFormatIsEditing, this.reportFormatIsEditing && r.a.nextTick(function() {
+                                var t = document.getElementById("reportFormat");
+                                t && t.focus()
+                            })
+                        }, e.prototype.toggleReportDaysVisibility = function() {
+                            this.reportDaysIsEditing = !this.reportDaysIsEditing, this.reportDaysIsEditing && r.a.nextTick(function() {
+                                var t = document.getElementById("reportDays");
+                                t && t.focus()
+                            })
+                        }, e.prototype.create = function() {
+                            this.newItemContent && this.newItemContent.trim() && (this.items.unshift({
+                                status: "open",
+                                content: this.newItemContent.trim()
+                            }), this.save(), this.newItemContent = "")
+                        }, e.prototype.mouseenter = function(t) {
+                            this.hoveringIndex = t
+                        }, e.prototype.mouseleave = function() {
+                            this.hoveringIndex = null
+                        }, e.prototype.canClose = function(t) {
+                            return this.hoveringIndex === t && null === this.editingIndex && ("open" === this.items[t].status || "doing" === this.items[t].status)
+                        }, e.prototype.close = function(t) {
+                            t.status = "closed", t.date = Date.now(), this.save()
+                        }, e.prototype.canOnIt = function(t) {
+                            return this.hoveringIndex === t && null === this.editingIndex && "open" === this.items[t].status
+                        }, e.prototype.onIt = function(t) {
+                            t.status = "doing", this.save()
+                        }, e.prototype.canDone = function(t) {
+                            return this.hoveringIndex === t && null === this.editingIndex && ("open" === this.items[t].status || "doing" === this.items[t].status)
+                        }, e.prototype.done = function(t) {
+                            t.status = "done", t.date = Date.now(), this.save()
+                        }, e.prototype.canReopen = function(t) {
+                            return this.hoveringIndex === t && null === this.editingIndex && ("done" === this.items[t].status || "closed" === this.items[t].status)
+                        }, e.prototype.reopen = function(t) {
+                            t.status = "open", this.save()
+                        }, e.prototype.edit = function(t, e) {
+                            var n = e.target,
+                                i = 0,
+                                o = e.clientX;
+                            if (!n.className) {
+                                var s = n.parentElement;
+                                if (s.childElementCount > 0)
+                                    for (var a = s.childNodes[0].getBoundingClientRect().left, l = 0; l < s.childNodes.length; l++) {
+                                        var c = s.childNodes[l].getBoundingClientRect().width;
+                                        if (a += c, i++, a >= o - c / 2) break
+                                    }
+                            }
+                            this.editingIndex = t, r.a.nextTick(function() {
+                                var t = document.getElementById("editingItem");
+                                t && (t.focus(), t.setSelectionRange(i, i))
+                            })
+                        }, e.prototype.doneEditing = function() {
+                            null === this.editingIndex || this.items[this.editingIndex].content || (this.items.splice(this.editingIndex, 1), this.save()), this.editingIndex = null
+                        }, e.prototype.report = function() {
+                            var t = 24 * this.reportDays * 60 * 60 * 1e3,
+                                e = this.items.filter(function(e) {
+                                    return Date.now() - e.date < t
+                                }).sort(function(t, e) {
+                                    return t.date - e.date
+                                });
+                            this.result = this.reportStatus(e, "done") + "\n\n" + this.reportStatus(e, "closed")
+                        }, e.prototype.clearResult = function() {
+                            this.result = ""
+                        }, Object.defineProperty(e.prototype, "canClearItems", {
+                            get: function() {
+                                var t = this;
+                                return this.items.length > 0 && this.items.some(function(e) {
+                                    return !!e.date && Date.now() - e.date >= t.clearItemTimespan
+                                })
+                            },
+                            enumerable: !0,
+                            configurable: !0
+                        }), e.prototype.clearItems = function() {
+                            var t = this;
+                            this.items = this.items.filter(function(e) {
+                                return !e.date || Date.now() - e.date < t.clearItemTimespan
+                            }), this.save()
+                        }, e.prototype.exportItems = function() {
+                            this.result = u.a.stringify(this.items, null, "  ")
+                        }, e.prototype.importItems = function() {
+                            this.items = u.a.parse(this.result), this.save()
+                        }, e.prototype.clickResult = function() {
+                            var t = this;
+                            this.canImport = !0, r.a.nextTick(function() {
+                                var e = t.$refs.result;
+                                e && e.focus()
+                            })
+                        }, e.prototype.doneEditingResult = function() {
+                            this.canImport = !1
+                        }, e.prototype.save = function() {
+                            localStorage.setItem("todo.items", JSON.stringify(this.items))
+                        }, e.prototype.reportStatus = function(t, e) {
+                            var n = this;
+                            return e + ":\n" + t.filter(function(t) {
+                                return t.status === e
+                            }).map(function(t) {
+                                var e = new Date(t.date),
+                                    i = e.getFullYear().toString(),
+                                    o = e.getMonth() + 1,
+                                    r = o > 9 ? o.toString() : "0" + o,
+                                    s = e.getDate(),
+                                    a = s > 9 ? s.toString() : "0" + s,
+                                    l = e.toLocaleDateString(navigator.language, {
+                                        weekday: "short"
+                                    });
+                                return n.reportFormat.replace("[year]", i).replace("[month]", r).replace("[day]", a).replace("[week]", l).replace("[content]", t.content)
+                            }).join("\n")
+                        }, e = i.a([a()({
+                            template: p.a
+                        })], e)
+                    }(r.a);
+                navigator.serviceWorker && navigator.serviceWorker.register("service-worker.bundle.js").catch(function(t) {
+                        console.log("registration failed with error: " + t)
+                    }), "zh-CN" === navigator.language && (h = d.a),
+                    function() {
+                        new f({
+                            el: "#container"
+                        })
+                    }()
+            }
+        }, [7]);
+    </script>
+</body>
+
+</html>
