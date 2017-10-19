@@ -48,5 +48,11 @@ import * as puppeteer from "puppeteer";
     await page.waitFor(100);
     await page.screenshot({ path: `screenshots/edit.png`, fullPage: true });
 
+    await page.waitFor(100);
+    await (page.keyboard as any).type(" changed");
+    await (page.keyboard as any).press("Enter");
+    await page.waitFor(100);
+    await page.screenshot({ path: `screenshots/edit-finished.png`, fullPage: true });
+
     browser.close();
 })();
