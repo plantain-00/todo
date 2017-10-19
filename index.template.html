@@ -50,10 +50,10 @@
                     )
                 </template>
             </span>
-            <button v-if="canOnIt(i)" @click="onIt(item)">on it</button>
-            <button v-if="canDone(i)" @click="done(item)">done</button>
-            <button v-if="canClose(i)" @click="close(item)">close</button>
-            <button v-if="canReopen(i)" @click="reopen(item)">reopen</button>
+            <button v-if="canOnIt(i)" class="on-it" @click="onIt(item)">on it</button>
+            <button v-if="canDone(i)" class="done" @click="done(item)">done</button>
+            <button v-if="canClose(i)" class="close" @click="close(item)">close</button>
+            <button v-if="canReopen(i)" class="reopen" @click="reopen(item)">reopen</button>
         </li>
     </ul>
 </div>
