@@ -127,24 +127,28 @@ class App extends Vue {
         item.status = "open";
         this.save();
     }
-    edit(index: number, e: MouseEvent) {
-        const target = e.target as HTMLSpanElement;
+    edit(index: number, e?: MouseEvent) {
         let position = 0;
-        const clientX = e.clientX;
-        if (!target.className) { // click on letters rather than spaces
-            const parentElement = target.parentElement as HTMLSpanElement;
-            if (parentElement.childElementCount > 0) {
-                let x = (parentElement.childNodes[0] as HTMLSpanElement).getBoundingClientRect().left;
-                // tslint:disable-next-line:prefer-for-of
-                for (let i = 0; i < parentElement.childNodes.length; i++) {
-                    const width = (parentElement.childNodes[i] as HTMLSpanElement).getBoundingClientRect().width;
-                    x += width;
-                    position++;
-                    if (x >= clientX - width / 2) {
-                        break;
+        if (e) {
+            const target = e.target as HTMLSpanElement;
+            const clientX = e.clientX;
+            if (!target.className) { // click on letters rather than spaces
+                const parentElement = target.parentElement as HTMLSpanElement;
+                if (parentElement.childElementCount > 0) {
+                    let x = (parentElement.childNodes[0] as HTMLSpanElement).getBoundingClientRect().left;
+                    // tslint:disable-next-line:prefer-for-of
+                    for (let i = 0; i < parentElement.childNodes.length; i++) {
+                        const width = (parentElement.childNodes[i] as HTMLSpanElement).getBoundingClientRect().width;
+                        x += width;
+                        position++;
+                        if (x >= clientX - width / 2) {
+                            break;
+                        }
                     }
                 }
             }
+        } else {
+            position = this.items[index].content.length;
         }
         this.editingIndex = index;
         Vue.nextTick(() => {
