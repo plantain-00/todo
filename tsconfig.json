@@ -16,7 +16,8 @@
         "jsx": "react",
         "experimentalDecorators": true,
         "allowSyntheticDefaultImports": true,
-        "moduleResolution": "node"
+        "moduleResolution": "node",
+        "newLine": "LF"
     },
     "files": [
         "index.ts",
