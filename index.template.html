@@ -23,6 +23,7 @@
             <input v-model="newItemContent" @keyup.enter="create()">
         </li>
         <li v-for="(item, i) in items"
+            :key="i"
             @mouseenter="mouseenter(i)"
             @mouseleave="mouseleave()">
             <input v-if="editingIndex === i"
