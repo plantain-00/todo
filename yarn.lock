@@ -2833,16 +2833,16 @@ no-case@^2.2.0:
   dependencies:
     lower-case "^1.1.1"
 
-no-unused-export@1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/no-unused-export/-/no-unused-export-1.4.0.tgz#4f16bbdc3f13a693a08c0b9dee7f81ca48118e1c"
+no-unused-export@1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/no-unused-export/-/no-unused-export-1.4.1.tgz#b479e92426442f7c1357cbcfea895cd55418a6de"
   dependencies:
     glob "7.1.2"
     minimist "1.2.0"
     parse5 "3.0.2"
-    postcss-less "1.1.0"
+    postcss-less "1.1.1"
     postcss-scss "1.0.2"
-    typescript "2.5.3"
+    typescript "2.6.1"
 
 node-libs-browser@^2.0.0:
   version "2.0.0"
@@ -3312,13 +3312,7 @@ postcss-cli@4.1.1:
     read-cache "^1.0.0"
     yargs "^8.0.1"
 
-postcss-less@1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/postcss-less/-/postcss-less-1.1.0.tgz#bdcc76be64c4324d873fbc5cd9fa2e799e4305fa"
-  dependencies:
-    postcss "^5.2.16"
-
-postcss-less@^1.1.0:
+postcss-less@1.1.1, postcss-less@^1.1.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/postcss-less/-/postcss-less-1.1.1.tgz#4bd240db517ce3407583d927858184f50045f4ab"
   dependencies:
@@ -4421,10 +4415,6 @@ type-is@~1.6.15:
 typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
-
-typescript@2.5.3:
-  version "2.5.3"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.5.3.tgz#df3dcdc38f3beb800d4bc322646b04a3f6ca7f0d"
 
 typescript@2.6.1:
   version "2.6.1"
