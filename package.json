@@ -2,7 +2,6 @@
   "name": "todo",
   "version": "1.0.0",
   "description": "An online todo management tool.",
-  "main": "index.js",
   "scripts": {
     "build": "clean-scripts build",
     "lint": "clean-scripts lint",
