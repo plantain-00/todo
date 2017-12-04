@@ -3,7 +3,7 @@ import Component from "vue-class-component";
 import * as Clipboard from "clipboard";
 import JSON5 from "json5";
 import { indexTemplateHtml } from "./variables";
-import { Locale } from "relative-time-component/vue";
+import { Locale } from "relative-time-vue-component";
 
 new Clipboard(".clipboard");
 
@@ -243,7 +243,8 @@ if (navigator.serviceWorker) {
     });
 }
 
-import { locale as zhCNLocale } from "relative-time-component/locales/zh-CN.js";
+// tslint:disable-next-line:no-implicit-dependencies
+import { locale as zhCNLocale } from "relative-time-component/dist/locales/zh-CN";
 if (navigator.language === "zh-CN") {
     locale = zhCNLocale;
 }
