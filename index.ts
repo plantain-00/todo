@@ -13,9 +13,9 @@ const initialItems = localStorage.getItem(itemsKeyName);
 let locale: Locale | null = null;
 
 @Component({
-    template: indexTemplateHtml,
+    render: indexTemplateHtml,
 })
-class App extends Vue {
+export class App extends Vue {
     items: Item[] = initialItems ? JSON.parse(initialItems) : [];
     newItemContent = "";
     editingIndex: number | null = null;
