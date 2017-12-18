@@ -2,7 +2,7 @@ import Vue from "vue";
 import Component from "vue-class-component";
 import * as Clipboard from "clipboard";
 import JSON5 from "json5";
-import { indexTemplateHtml } from "./variables";
+import { indexTemplateHtml, indexTemplateHtmlStatic } from "./variables";
 import { Locale } from "relative-time-vue-component";
 
 new Clipboard(".clipboard");
@@ -14,6 +14,7 @@ let locale: Locale | null = null;
 
 @Component({
     render: indexTemplateHtml,
+    staticRenderFns: indexTemplateHtmlStatic,
 })
 export class App extends Vue {
     items: Item[] = initialItems ? JSON.parse(initialItems) : [];
