@@ -138,7 +138,6 @@ export class App extends Vue {
         const parentElement = target.parentElement as HTMLSpanElement
         if (parentElement.childElementCount > 0) {
           let x = (parentElement.childNodes[0] as HTMLSpanElement).getBoundingClientRect().left
-                    // tslint:disable-next-line:prefer-for-of
           for (let i = 0; i < parentElement.childNodes.length; i++) {
             const width = (parentElement.childNodes[i] as HTMLSpanElement).getBoundingClientRect().width
             x += width
@@ -241,12 +240,10 @@ interface Item {
 
 if (navigator.serviceWorker) {
   navigator.serviceWorker.register('service-worker.bundle.js').catch(error => {
-        // tslint:disable-next-line:no-console
     console.log('registration failed with error: ' + error)
   })
 }
 
-// tslint:disable-next-line:no-implicit-dependencies
 import { locale as zhCNLocale } from 'relative-time-component/dist/locales/zh-CN'
 if (navigator.language === 'zh-CN') {
   locale = zhCNLocale
