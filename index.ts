@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
-import * as Clipboard from 'clipboard'
+import Clipboard from 'clipboard'
 import JSON5 from 'json5'
 import { indexTemplateHtml, indexTemplateHtmlStatic } from './variables'
 import { Locale } from 'relative-time-vue-component'
