@@ -28,14 +28,14 @@
     "@types/jasmine": "2.8.6",
     "@types/json5": "0.0.29",
     "@types/puppeteer": "1.0.0",
-    "autoprefixer": "7.2.5",
+    "autoprefixer": "7.2.6",
     "clean-css-cli": "4.1.10",
     "clean-scripts": "1.7.0",
     "clipboard": "1.7.1",
     "file2variable-cli": "1.8.3",
     "github-fork-ribbon-css": "0.2.1",
     "http-server": "0.11.1",
-    "jasmine": "2.9.0",
+    "jasmine": "3.0.0",
     "json5": "0.5.1",
     "karma": "2.0.0",
     "karma-chrome-launcher": "2.2.0",
@@ -43,9 +43,9 @@
     "karma-jasmine": "1.1.1",
     "karma-webpack": "2.0.9",
     "less": "2.7.3",
-    "markdownlint-cli": "0.7.0",
-    "no-unused-export": "1.4.5",
-    "postcss-cli": "4.1.1",
+    "markdownlint-cli": "0.7.1",
+    "no-unused-export": "1.5.0",
+    "postcss-cli": "5.0.0",
     "puppeteer": "1.0.0",
     "relative-time-vue-component": "4.2.2",
     "rev-static": "3.4.1",
@@ -62,6 +62,6 @@
     "vue": "2.5.13",
     "vue-class-component": "6.1.2",
     "watch-then-execute": "1.1.1",
-    "webpack": "3.10.0"
+    "webpack": "3.11.0"
   }
 }
