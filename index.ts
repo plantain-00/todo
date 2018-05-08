@@ -31,29 +31,29 @@ export class App extends Vue {
   private hoveringIndex: number | null = null
   private internalReportFormat = localStorage.getItem(reportFormatKeyName) || '[year]-[month]-[day]([week]): [content]'
 
-  get reportFormat () {
+  get reportFormat() {
     return this.internalReportFormat
   }
-  set reportFormat (format: string) {
+  set reportFormat(format: string) {
     this.internalReportFormat = format
     localStorage.setItem(reportFormatKeyName, format)
   }
 
-  get editingItemContent () {
+  get editingItemContent() {
     return this.editingIndex !== null ? this.items[this.editingIndex].content : ''
   }
-  set editingItemContent (content: string) {
+  set editingItemContent(content: string) {
     if (this.editingIndex !== null) {
       this.items[this.editingIndex].content = content
       this.save()
     }
   }
 
-  getSpanedContent (item: Item) {
+  getSpanedContent(item: Item) {
     return item.content.split('').map(c => `<span>${c}</span>`).join('')
   }
 
-  toggleReportFormatVisibility () {
+  toggleReportFormatVisibility() {
     this.reportFormatIsEditing = !this.reportFormatIsEditing
     if (this.reportFormatIsEditing) {
       Vue.nextTick(() => {
@@ -64,7 +64,7 @@ export class App extends Vue {
       })
     }
   }
-  toggleReportDaysVisibility () {
+  toggleReportDaysVisibility() {
     this.reportDaysIsEditing = !this.reportDaysIsEditing
     if (this.reportDaysIsEditing) {
       Vue.nextTick(() => {
@@ -75,7 +75,7 @@ export class App extends Vue {
       })
     }
   }
-  create () {
+  create() {
     if (this.newItemContent && this.newItemContent.trim()) {
       this.items.unshift({
         status: 'open',
@@ -85,51 +85,50 @@ export class App extends Vue {
       this.newItemContent = ''
     }
   }
-  mouseenter (index: number) {
+  mouseenter(index: number) {
     this.hoveringIndex = index
   }
-  mouseleave () {
+  mouseleave() {
     this.hoveringIndex = null
   }
-  canClose (index: number) {
+  canClose(index: number) {
     return this.hoveringIndex === index
-            && this.editingIndex === null
-            && (this.items[index].status === 'open' || this.items[index].status === 'doing')
+      && this.editingIndex === null
+      && (this.items[index].status === 'open' || this.items[index].status === 'doing')
   }
-  close (item: Item) {
+  close(item: Item) {
     item.status = 'closed'
     item.date = Date.now()
     this.save()
   }
-  canOnIt (index: number) {
+  canOnIt(index: number) {
     return this.hoveringIndex === index
-            && this.editingIndex === null
-            && this.items[index].status === 'open'
+      && this.editingIndex === null
+      && this.items[index].status === 'open'
   }
-  onIt (item: Item) {
+  onIt(item: Item) {
     item.status = 'doing'
     this.save()
   }
-  canDone (index: number) {
-    return this.hoveringIndex === index
-            && this.editingIndex === null
-            && (this.items[index].status === 'open' || this.items[index].status === 'doing')
+  canDone(index: number) {
+    return this.canClose(index)
   }
-  done (item: Item) {
+  done(item: Item) {
     item.status = 'done'
     item.date = Date.now()
     this.save()
   }
-  canReopen (index: number) {
+  canReopen(index: number) {
     return this.hoveringIndex === index
-            && this.editingIndex === null
-            && (this.items[index].status === 'done' || this.items[index].status === 'closed')
+      && this.editingIndex === null
+      && (this.items[index].status === 'done' || this.items[index].status === 'closed')
   }
-  reopen (item: Item) {
+  reopen(item: Item) {
     item.status = 'open'
     this.save()
   }
-  edit (index: number, e?: MouseEvent) {
+  // tslint:disable-next-line:cognitive-complexity
+  edit(index: number, e?: MouseEvent) {
     let position = 0
     if (e) {
       const target = e.target as HTMLSpanElement
@@ -160,37 +159,37 @@ export class App extends Vue {
       }
     })
   }
-  doneEditing () {
+  doneEditing() {
     if (this.editingIndex !== null && !this.items[this.editingIndex].content) {
       this.items.splice(this.editingIndex, 1)
       this.save()
     }
     this.editingIndex = null
   }
-  report () {
+  report() {
     const milliseconds = this.reportDays * 24 * 60 * 60 * 1000
     const items = this.items.filter(item => Date.now() - item.date! < milliseconds)
-            .sort((item1, item2) => item1.date! - item2.date!)
+      .sort((item1, item2) => item1.date! - item2.date!)
     this.result = this.reportStatus(items, 'done') + '\n\n' + this.reportStatus(items, 'closed')
   }
-  clearResult () {
+  clearResult() {
     this.result = ''
   }
-  get canClearItems () {
+  get canClearItems() {
     return this.items.length > 0 && this.items.some(item => !!item.date && Date.now() - item.date >= this.clearItemTimespan)
   }
-  clearItems () {
+  clearItems() {
     this.items = this.items.filter(item => !item.date || Date.now() - item.date < this.clearItemTimespan)
     this.save()
   }
-  exportItems () {
+  exportItems() {
     this.result = JSON5.stringify(this.items, null, '  ')
   }
-  importItems () {
+  importItems() {
     this.items = JSON5.parse(this.result)
     this.save()
   }
-  clickResult () {
+  clickResult() {
     this.canImport = true
     Vue.nextTick(() => {
       const resultElement = this.$refs.result as HTMLElement
@@ -199,33 +198,33 @@ export class App extends Vue {
       }
     })
   }
-  doneEditingResult () {
+  doneEditingResult() {
     this.canImport = false
   }
-  private save () {
+  private save() {
     localStorage.setItem(itemsKeyName, JSON.stringify(this.items))
   }
-  private reportStatus (items: Item[], status: Status) {
+  private reportStatus(items: Item[], status: Status) {
     return status + ':\n' + items.filter(item => item.status === status)
-            .map(item => {
-              const date = new Date(item.date!)
-              const year = date.getFullYear().toString()
-              const month = date.getMonth() + 1
-              const monthString = month > 9 ? month.toString() : '0' + month
-              const day = date.getDate()
-              const dayString = day > 9 ? day.toString() : '0' + day
-              const week = date.toLocaleDateString(navigator.language, { weekday: 'short' })
-              return this.reportFormat.replace('[year]', year)
-                    .replace('[month]', monthString)
-                    .replace('[day]', dayString)
-                    .replace('[week]', week)
-                    .replace('[content]', item.content)
-            })
-            .join('\n')
+      .map(item => {
+        const date = new Date(item.date!)
+        const year = date.getFullYear().toString()
+        const month = date.getMonth() + 1
+        const monthString = month > 9 ? month.toString() : '0' + month
+        const day = date.getDate()
+        const dayString = day > 9 ? day.toString() : '0' + day
+        const week = date.toLocaleDateString(navigator.language, { weekday: 'short' })
+        return this.reportFormat.replace('[year]', year)
+          .replace('[month]', monthString)
+          .replace('[day]', dayString)
+          .replace('[week]', week)
+          .replace('[content]', item.content)
+      })
+      .join('\n')
   }
 }
 
-function start () {
+function start() {
   // tslint:disable-next-line:no-unused-expression
   new App({ el: '#container' })
 }
