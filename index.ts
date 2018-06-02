@@ -113,11 +113,13 @@ export class App extends Vue {
   canDone(index: number) {
     return this.canClose(index)
   }
+  // tslint:disable-next-line:no-identical-functions
   done(item: Item) {
     item.status = 'done'
     item.date = Date.now()
     this.save()
   }
+  // tslint:disable-next-line:no-identical-functions
   canReopen(index: number) {
     return this.hoveringIndex === index
       && this.editingIndex === null
