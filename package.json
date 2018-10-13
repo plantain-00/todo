@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/plantain-00/todo#readme",
   "devDependencies": {
-    "@commitlint/cli": "7.2.0",
+    "@commitlint/cli": "7.2.1",
     "@commitlint/config-conventional": "7.1.2",
     "@types/clipboard": "2.0.1",
     "@types/jasmine": "2.8.9",
