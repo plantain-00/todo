@@ -5,7 +5,6 @@ import JSON5 from 'json5'
 import { indexTemplateHtml, indexTemplateHtmlStatic } from './variables'
 import { Locale } from 'relative-time-vue-component'
 
-// tslint:disable-next-line:no-unused-expression
 new Clipboard('.clipboard')
 
 const itemsKeyName = 'todo.items'
@@ -113,13 +112,11 @@ export class App extends Vue {
   canDone(index: number) {
     return this.canClose(index)
   }
-  // tslint:disable-next-line:no-identical-functions
   done(item: Item) {
     item.status = 'done'
     item.date = Date.now()
     this.save()
   }
-  // tslint:disable-next-line:no-identical-functions
   canReopen(index: number) {
     return this.hoveringIndex === index
       && this.editingIndex === null
@@ -129,7 +126,6 @@ export class App extends Vue {
     item.status = 'open'
     this.save()
   }
-  // tslint:disable-next-line:cognitive-complexity
   edit(index: number, e?: MouseEvent) {
     let position = 0
     if (e) {
@@ -227,7 +223,6 @@ export class App extends Vue {
 }
 
 function start() {
-  // tslint:disable-next-line:no-unused-expression
   new App({ el: '#container' })
 }
 
