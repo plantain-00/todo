@@ -26,8 +26,6 @@
   },
   "homepage": "https://github.com/plantain-00/todo#readme",
   "devDependencies": {
-    "@commitlint/cli": "9.0.1",
-    "@commitlint/config-conventional": "9.0.1",
     "@types/clipboard": "2.0.1",
     "@types/json5": "0.0.30",
     "@types/webpack": "4.41.18",
