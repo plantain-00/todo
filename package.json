@@ -22,7 +22,7 @@
     "url": "https://github.com/plantain-00/todo/issues"
   },
   "typeCoverage": {
-    "atLeast": 85
+    "atLeast": 86.94
   },
   "homepage": "https://github.com/plantain-00/todo#readme",
   "devDependencies": {
