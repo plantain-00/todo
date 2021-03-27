@@ -91,7 +91,7 @@ export function indexTemplateHtml(_ctx, _cache) {
           onFocusout: _cache[11] || (_cache[11] = $event => (_ctx.doneEditingResult())),
           rows: "20",
           ref: "result"
-        }, null, 544 /* HYDRATE_EVENTS, NEED_PATCH */)), [
+        }, "\n    ", 544 /* HYDRATE_EVENTS, NEED_PATCH */)), [
           [_vModelText, _ctx.result]
         ])
       : (_openBlock(), _createBlock("pre", {
@@ -138,7 +138,7 @@ export function indexTemplateHtml(_ctx, _cache) {
                       class: "content",
                       innerHTML: _ctx.getSpanedContent(item)
                     }, null, 8 /* PROPS */, ["onClick", "innerHTML"]))
-              ], 64 /* STABLE_FRAGMENT */)),
+              ], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)),
           (_ctx.editingIndex !== i)
             ? (_openBlock(), _createBlock("span", {
                 key: 2,
