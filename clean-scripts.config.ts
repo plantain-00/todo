@@ -6,7 +6,6 @@ const lessFiles = `"*.less"`
 
 const isDev = process.env.NODE_ENV === 'development'
 
-const templateCommand = `file2variable-cli --config file2variable.config.ts`
 const webpackCommand = `webpack --config webpack.config.ts`
 const revStaticCommand = `rev-static`
 const cssCommand = [
@@ -22,10 +21,7 @@ const swCommand = isDev ? undefined : [
 module.exports = {
   build: [
     {
-      js: [
-        templateCommand,
-        webpackCommand
-      ],
+      js: webpackCommand,
       css: cssCommand,
       clean: `rimraf *.min-*.js index.min-*.css`
     },
@@ -45,7 +41,6 @@ module.exports = {
     less: `stylelint --fix ${lessFiles}`
   },
   watch: {
-    template: `${templateCommand} --watch`,
     webpack: `${webpackCommand} --watch`,
     less: () => watch(['*.less'], [], () => executeScriptAsync(cssCommand)),
     rev: `${revStaticCommand} --watch`
